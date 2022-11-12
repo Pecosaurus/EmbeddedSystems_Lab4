@@ -1,1 +1,9 @@
 # EmbeddedSystems_Lab4
+
+# In this Lab, we are utilizing different different Timers and PWM on the MSP430FR2355 to toggle the output of different pins on the board. 
+
+# In the first part of the lab, we are utilizing the Watch Dog Time to Toggle the Green LED very 250 ms. This is done using the interrupt process of the board. The purpose of this code is to learn how to use WDT as the interval time to turn the LED on or off or the input current of a pin on or off. It is also used to utilize the built in shortcut in the IDE to assign the values of the different Register description field what kind of time interval you want the WDT to output in the doard without type each setting field.
+
+# In the second part of the lab, we utilized the Pulse Width Modulation with one of the Clocks to turn the current or power to a pin on the board for a certain pourtain a wave period and off for the rest of the period using a duty cycle percentage. A the Polling processes was used and programmed for the computer reacts to the PWM time signal to turn on and off the pin on the board that is the output of the polling process. The purpose of this code and this exercise is to the PWM with one of the clocks, which the Auxiliary Clock was used in my code to make the pulsing time signal. Also, we learn how to calculate the PWM Period and PWM duty cycle using formulas and the desired duty cycle percentage and period of each signal and the frequency of the clock utilized. We also the difference Timer setting we need to set to make the PWM work correctly.
+
+# In the third part of the lab, we do the same concept as the code in part three except the interrupt process of the board is used. The purpose of this exercise is to see how the PWM and the toggling of the pin output power is coded different between the polling process and the interupt process and what setting of the PWM need to be set for each process.

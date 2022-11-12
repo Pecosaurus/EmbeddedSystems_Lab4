@@ -2,15 +2,15 @@
 int main(void)
 {
 
-    WDTCTL = WDT_ADLY_250;   // WDT 250ms, SMCLK, interval timer
+    WDTCTL = WDT_ADLY_250;   // WDT 250ms, ACLK, interval timer
 
-    P6OUT &= ~BIT6;          // Green LED
+    P6OUT &= ~BIT6;          // Clear P6.6 = Green LED to Start
 
-    P6DIR |= BIT6;           // Green LED
+    P6DIR |= BIT6;           // Set P6.6 = Green LED direction = out
 
     PM5CTL0 &= ~LOCKLPM5;    // Stops Low Power Mode
 
-    SFRIE1 |= WDTIE;
+    SFRIE1 |= WDTIE;         // Setting the Interrupt Enable to the Watchdog timer interrupt enable
 
     _enable_interrupts();
 

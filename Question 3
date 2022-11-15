@@ -1,29 +1,30 @@
 #include <msp430.h>
 void main(void)
 {
-    WDTCTL = WDTPW | WDTHOLD;   // stop watchdog timer
-    PM5CTL0 &= ~LOCKLPM5;
-    P1DIR |= BIT6;               // P1.6  output
+    WDTCTL = WDTPW | WDTHOLD;          // stop watchdog timer
+    PM5CTL0 &= ~LOCKLPM5;              // Stop Low Power Mode
+    P1DIR |= BIT6;                     // P1.6  output
 
     //PWM Generator
-    TB0CCR0 = 8192;
-    TB0CCTL1 = OUTMOD_7;
-    TB0CCR1 = 1638.4;
-    TB0CTL = TBSSEL_1 + MC_1 + TBCLR;
-    TB0CCTL0 |= CCIE;
-    TB0CCTL1 |= CCIE;
-    TB0CCTL0 &=~CCIFG;
-    TB0CCTL1 &=~CCIFG;
+    TB0CCR0 = 8192;                    // PWM Period
+    TB0CCTL1 = OUTMOD_7;               // CCR1 set to Graph Mode 7
+    TB0CCR1 = 1638.4;                  // CCR1 PWM Duty Cycle
+    TB0CTL = TBSSEL_1 + MC_1 + TBCLR;  // ACLK, up mode, clear TBR
+    TB0CCTL0 |= CCIE;                  // CCR0 Interrupt Enabled
+    TB0CCTL1 |= CCIE;                  // CCR1 Interrupt Enabled
+    TB0CCTL0 &= ~CCIFG;                // CCR0 Clear Interrupt Flag
+    TB0CCTL1 &= ~CCIFG;                // CRR1 Clear Interrupt Flag
     _enable_interrupts();
 }
-#pragma vector = TIMER0_B0_VECTOR       //define the interrupt service vector
-__interrupt void ISR_TB0_CCR0 (void)    // interrupt service routine
+#pragma vector = TIMER0_B0_VECTOR       // define the interrupt service vector for B0 CCR0
+__interrupt void ISR_TB0_CCR0 (void)    // interrupt service routine for B0 CCR0
     {
-    P1OUT |=BIT6;
-    TB0CCTL0 &=~CCIFG;
+    P1OUT |=BIT6;                       // Toggle output of Pin P1.6 based of PWM impulse signal
+    TB0CCTL0 &=~CCIFG;                  // CCR0 Clear Interrupt Flag
     }
-#pragma vector = TIMER0_B1_VECTOR
-__interrupt void ISR_TB0_CCR1  (void) {
-    P1OUT &=~BIT6;
-    TB0CCTL1 &=~CCIFG;
+#pragma vector = TIMER0_B1_VECTOR       // define the interrupt service vector for B0 CCR1
+__interrupt void ISR_TB0_CCR1  (void) { // interrupt service routine for B0 CCR1
+    P1OUT &=~BIT6;                      // Toggle output of Pin P1.6 based of PWM impulse signal
+    TB0CCTL1 &=~CCIFG;                  // CCR1 Clear Interrupt Flag
     }
+
